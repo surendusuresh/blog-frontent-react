@@ -69,14 +69,12 @@ const Signin = () => {
             <button type="submit" className="btn btn-primary mb-5"
                 onClick={async (event) => {
                     event.preventDefault()
-                    try{
-                        console.log("inside click function")                        
+                    try{                      
                         const response = await client.query({
                             query: LOGIN_USER,
                             variables: { email, password },
                             fetchPolicy: 'no-cache'
-                        })
-                        console.log(response)
+                        })                        
                         localStorage.setItem('token',response.data.login.token)
                         authDispatch({
                           type: 'LOGIN',

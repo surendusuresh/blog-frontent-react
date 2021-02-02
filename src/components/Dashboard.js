@@ -20,7 +20,9 @@ const GET_ALL_POSTS = gql`
 
 const Dashboard = () => {
 
-  const { data, loading, error } = useQuery(GET_ALL_POSTS);
+  const { data, loading, error } = useQuery(GET_ALL_POSTS, {
+    fetchPolicy: "network-only"
+  });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
   return (
@@ -30,6 +32,7 @@ const Dashboard = () => {
           <h3>placeholder</h3>
         </div>
         <div className="col-md-8">
+          <h4>Posts</h4>
           {data.allPosts.map((post) => {
             return (              
                 <div className="card d-block mb-3" key={post.id}>
