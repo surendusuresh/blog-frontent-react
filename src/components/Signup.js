@@ -51,7 +51,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container mb-5">
       <div className="row mt-5">
         <div className="col-md-6">
           <form
