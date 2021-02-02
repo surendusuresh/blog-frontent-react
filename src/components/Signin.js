@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useApolloClient } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { Context } from '../context/context'
 
 
@@ -14,24 +14,23 @@ const LOGIN_USER = gql`
 `;
 
 const Signin = () => {
-
+  
   const { authDispatch } = useContext(Context)
   let history = useHistory()
+  let location = useLocation()  
   const client = useApolloClient();
   const [values, setValues] = useState({
     email: "",
     password: "",
-    message: false,
-    success: false,
+    message: false,    
   });
 
-  const { email, password, message, success } = values;
+  const { email, password, message } = values;
 
   const handleChange = (name) => (event) => {
     setValues({
       ...values,
       message: false,
-      success: false,
       [name]: event.target.value,
     });
   };
@@ -90,14 +89,7 @@ const Signin = () => {
               Sign In
             </button>
             {message && <p className="mt-3 alert alert-danger">{message}</p>}
-            {success && (
-              <p className="mt-3 alert alert-dark">
-                Sign up successful. Please
-                <Link to="/signin" className="btn btn-outline-dark">
-                  Sign In
-                </Link>
-              </p>
-            )}
+            {location.state && location.state.params === 'expired' && <p className="mt-3 alert alert-danger">You have been logged out. Please re-login</p>}
           </form>
         </div>
       </div>

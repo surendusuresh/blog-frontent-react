@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Context } from "../context/context";
 
 const Header = () => {
   const { auth, authDispatch } = useContext(Context);
+  let history = useHistory()
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-white px-5 py-2">
@@ -47,6 +48,7 @@ const Header = () => {
                 authDispatch({
                   type: "LOGOUT",
                 });
+                history.push('/signin')
               }}
             >
               Logout

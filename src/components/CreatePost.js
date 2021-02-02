@@ -1,36 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { useHistory } from 'react-router-dom'
+import jwt from 'jsonwebtoken'
+import { Context } from '../context/context'
+
+const CREATE_POST = gql`
+mutation CreatePost($title: String! , $tags: String!, $body: String!, $slug: String!, $image: String){    
+    createPost(title:$title, tags:$tags, body:$body, slug:$slug, image: $image){
+        id
+    }
+}
+`;
 
 const CreatePost = () => {
+
+  let history = useHistory()
+  const { authDispatch } = useContext(Context)
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    let decodedToken = jwt.decode(token, { complete: true });
+    let dateNow = new Date();
+    if (decodedToken.payload.exp * 1000 < dateNow.getTime()) {
+      authDispatch({
+        type: "LOGOUT"
+      })
+      localStorage.removeItem("token")
+      history.push('/signin',{params:'expired'})
+    }
+  })
+  const [createPost,] = useMutation(CREATE_POST);
   const [values, setValues] = useState({
     title: "",
     tags: "",
     slug: "",
     body: "",
-    message: false,
-    success: false,
+    image: "",
+    message: false    
   });
 
-  const { title, tags, slug, body, message, success } = values;
+  const { title, tags, slug, body, image, message } = values;
 
   const handleChange = (name) => (event) => {
     setValues({
       ...values,
-      message: false,
-      success: false,
+      message: false,      
       [name]: event.target.value,
     });
   };
-  const handleEditorChange = (content, editor) => {
-    console.log("Content was updated:", content);
+  const handleEditorChange = (content, editor) => {    
     setValues({...values, body: content})
   };
+
+  const clickSubmit = (event) => {
+    event.preventDefault();        
+    createPost({ variables: { title, body, tags, slug, image }})
+        .then(( { data } ) => {
+            setValues({ 
+                message: false,                
+                title: "",
+                body: "",
+                slug: "",
+                tags: "",
+                image: ""
+            })
+            history.push('/')
+        })
+        .catch(e => {
+            console.log(e.Error)
+            setValues({...values, message:"Something went wrong"})            
+        })
+  };
+
   return (
     <div className="container">
       <div className="row my-3">
         <div className="col-md-2"></div>
         <div className="col-md-8">
-          <form className="d-flex flex-column justify-content-md-center p-5 bg-white">
+          <form className="d-flex flex-column justify-content-md-center p-5 bg-white" onSubmit={clickSubmit}>
             <h3 className="display-4 text-muted mb-4">
               New Post
             </h3>
@@ -85,6 +134,7 @@ const CreatePost = () => {
             <button type="submit" className="btn btn-primary mb-5">
               Submit
             </button>
+            {message && <p className="mt-3 alert alert-danger">{message}</p>}
           </form>
         </div>
         <div className="col-md-2"></div>
