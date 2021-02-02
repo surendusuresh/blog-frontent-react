@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useApolloClient } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Context } from '../context/context'
 
 
@@ -16,9 +16,10 @@ const LOGIN_USER = gql`
 const Signin = () => {
   
   const { authDispatch } = useContext(Context)
-  let history = useHistory()
-  let location = useLocation()  
+  let history = useHistory()   
+  let location = useLocation()
   const client = useApolloClient();
+
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -69,10 +70,13 @@ const Signin = () => {
                 onClick={async (event) => {
                     event.preventDefault()
                     try{
+                        console.log("inside click function")                        
                         const response = await client.query({
                             query: LOGIN_USER,
-                            variables: { email, password }
+                            variables: { email, password },
+                            fetchPolicy: 'no-cache'
                         })
+                        console.log(response)
                         localStorage.setItem('token',response.data.login.token)
                         authDispatch({
                           type: 'LOGIN',
@@ -88,8 +92,8 @@ const Signin = () => {
             >
               Sign In
             </button>
-            {message && <p className="mt-3 alert alert-danger">{message}</p>}
-            {location.state && location.state.params === 'expired' && <p className="mt-3 alert alert-danger">You have been logged out. Please re-login</p>}
+            {message && <p className="mt-3 alert alert-danger">{message}</p>}  
+            {location.state && location.state.params === 'expired' && <p className="mt-3 alert alert-danger">Your session expired. Please login again.</p>}          
           </form>
         </div>
       </div>

@@ -1,6 +1,5 @@
 import React, { useReducer, useEffect } from "react";
 import authReducer from "../reducers/auth.js";
-import jwt from "jsonwebtoken";
 
 export const Context = React.createContext();
 

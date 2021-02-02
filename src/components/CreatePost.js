@@ -18,19 +18,19 @@ const CreatePost = () => {
 
   let history = useHistory()
   const { authDispatch } = useContext(Context)
-
-  useEffect(() => {
-    const token = localStorage.getItem("token")
+  useEffect(() => {    
+    let token = localStorage.getItem("token")
     let decodedToken = jwt.decode(token, { complete: true });
     let dateNow = new Date();
-    if (decodedToken.payload.exp * 1000 < dateNow.getTime()) {
+    if (decodedToken.payload.exp * 1000 < dateNow.getTime()) {      
       authDispatch({
         type: "LOGOUT"
       })
       localStorage.removeItem("token")
-      history.push('/signin',{params:'expired'})
+      alert("You have been logged out. Please login again.")
+      history.push('/signin',{params: 'expired'})
     }
-  })
+  },[authDispatch, history])
   const [createPost,] = useMutation(CREATE_POST);
   const [values, setValues] = useState({
     title: "",
