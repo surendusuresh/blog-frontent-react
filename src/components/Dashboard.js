@@ -37,10 +37,7 @@ const Dashboard = () => {
                     <h6 class="card-subtitle mb-2 text-muted">{post.author.name}</h6>
                     <h7 class="card-subtitle mb-2 text-muted">{moment(post.createdAt).format("MMM D")}</h7>
                     <h5 class="card-title h3">{post.title}</h5>
-                    <p class="card-text text-muted">{post.tags}</p>
-                    <a href="#" class="btn btn-primary">
-                      Read
-                    </a>
+                    <p class="card-text text-muted">{post.tags}</p>                    
                   </div>
                 </div>
               </div>

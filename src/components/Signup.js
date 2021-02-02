@@ -36,7 +36,14 @@ const Signup = () => {
     }
     createUser({ variables: { name, email, password }})
         .then(( { data } ) => {
-            setValues({ message: false, success: true })
+            setValues({ 
+                message: false, 
+                success: true,
+                name: "",
+                email: "",
+                password: "",
+                password2: "" 
+            })
         })
         .catch(e => {
             console.log(e.Error)            
@@ -45,10 +52,10 @@ const Signup = () => {
 
   return (
     <div className="container">
-      <div className="row">
+      <div className="row mt-5">
         <div className="col-md-6">
           <form
-            className="d-flex flex-column justify-content-md-center vh-100"
+            className="d-flex flex-column justify-content-md-center p-5 bg-white"
             onSubmit={clickSubmit}
           >
             <h3 className="display-4 text-muted mb-4">Join The Community</h3>
@@ -96,6 +103,7 @@ const Signup = () => {
                 required
               />
             </div>
+            <p>Already have an account? Please <Link to='/signin' className="text-decoration-none">Sign In</Link></p>
             <button type="submit" disabled={loading} className="btn btn-primary">
               Sign Up
             </button>
@@ -104,6 +112,11 @@ const Signup = () => {
             {success && <p className="mt-3 alert alert-dark">Sign up successful. Please <Link to='/signin' className="btn btn-outline-dark">Sign In</Link></p>}
           </form>
         </div>
+        <div className="col-md-6 bg-white">
+            <img src="images/signup.jpg" id="signupImage" className="img-fluid mt-3" alt=""/>            
+            <p className="text-muted mt-3 mx-3">We are a growing community of like-minded people who shares their knowledge for other's benefit. </p>
+            <p className="text-muted mt-3 mx-3">Be part of something great and we look forward to connect with you!</p>
+        </div>        
       </div>
     </div>
   );

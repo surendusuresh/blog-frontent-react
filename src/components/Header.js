@@ -1,11 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 
-const Header = () => {
-  
-    const buttonClick = () => {
-    alert("clicked");
-  };
+const Header = () => {    
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-white px-5 py-2">
