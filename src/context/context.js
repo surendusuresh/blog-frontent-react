@@ -6,11 +6,14 @@ export const Context = React.createContext()
 const ContextProvider = (props) => {
         
     const cachedToken = localStorage.getItem('token')
-    const [ auth, authDispatch ] = useReducer(authReducer, cachedToken || '')
+    const [ auth, authDispatch ] = useReducer(authReducer, '')
 
     useEffect(() => {
-        if(auth.token){
-            localStorage.setItem('token', auth.token)
+        if(cachedToken){
+            authDispatch({
+                type: 'LOGIN',
+                token: cachedToken
+            })
         }        
     })
 

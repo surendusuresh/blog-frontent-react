@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = () => (
-  <footer className="fixed-bottom">   
+  <footer className="footer">   
     <div className="row bg-dark h-20 p-5">
       <div className="col text-center text-white ">
         Surendu Suresh &copy; {new Date().getFullYear()}
