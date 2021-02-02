@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useApolloClient } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { Link, useHistory } from "react-router-dom";
+import { Context } from '../context/context'
 
 
 const LOGIN_USER = gql`
@@ -13,6 +14,8 @@ const LOGIN_USER = gql`
 `;
 
 const Signin = () => {
+
+  const { authDispatch } = useContext(Context)
   let history = useHistory()
   const client = useApolloClient();
   const [values, setValues] = useState({
@@ -72,6 +75,10 @@ const Signin = () => {
                             variables: { email, password }
                         })
                         localStorage.setItem('token',response.data.login.token)
+                        authDispatch({
+                          type: 'LOGIN',
+                          token: response.data.login.token
+                      })
                         history.push('/')
                     }
                     catch(e){

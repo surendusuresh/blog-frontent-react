@@ -1,7 +1,9 @@
-import React from "react";
-import { Link } from 'react-router-dom'
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { Context } from "../context/context";
 
-const Header = () => {    
+const Header = () => {
+  const { auth, authDispatch } = useContext(Context);
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-white px-5 py-2">
@@ -17,21 +19,43 @@ const Header = () => {
           className="form-control w-25 bg-light"
           placeholder="Search..."
         />
-        <Link
-          to='/signin'
-          className="btn btn-outline-light text-primary ml-auto mr-3"          
-        >
-          Login
-        </Link>
-        <Link
-          to='/signup'
-          className="btn btn-primary text-white mr-5"          
-        >
-          Create account
-        </Link>
+        {!auth.token ? (
+          <div className="ml-auto mr-3">
+            <Link
+              to="/signin"
+              className="btn btn-outline-light text-primary ml-auto mr-3"
+            >
+              Login
+            </Link>
+            <Link to="/signup" className="btn btn-primary text-white mr-5">
+              Create account
+            </Link>
+          </div>
+        ) : (
+          <div className="ml-auto mr-3">
+            <Link
+              to="/createpost"
+              className="btn btn-primary text-white ml-auto mr-3"
+            >
+              Create Post
+            </Link>
+            <button
+              className="btn btn-primary text-white mr-5"
+              onClick={(e) => {
+                e.preventDefault();
+                localStorage.removeItem("token");
+                authDispatch({
+                  type: "LOGOUT",
+                });
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );
 };
 
-export default Header
+export default Header;

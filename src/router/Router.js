@@ -1,24 +1,25 @@
-import React, { Fragment } from 'react'
-import { BrowserRouter , Switch, Route } from 'react-router-dom'
+import React, { Fragment, useContext } from "react";
+import { BrowserRouter } from "react-router-dom";
 
-import Header from '../components/Header'
-import Dashboard from '../components/Dashboard'
-import Signup from '../components/Signup'
-import Signin from '../components/Signin'
-import Footer from '../components/Footer'
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { Context } from "../context/context";
+import PublicRouter from '../router/PublicRouter'
+import PrivateRouter from '../router/PrivateRouter'
 
-const PublicRouter = () => (
+const Router = () => {
+
+  const { auth } = useContext(Context);
+
+  return (
     <Fragment>
-        <BrowserRouter>
-            <Header />
-            <Switch>                
-                <Route path='/' exact component={Dashboard} />   
-                <Route path='/signup' exact component={Signup} />  
-                <Route path='/signin' exact component={Signin} />       
-            </Switch>      
-            <Footer />      
-        </BrowserRouter>
+      <BrowserRouter>
+        <Header />
+            {auth.token ? <PrivateRouter /> : <PublicRouter />}            
+        <Footer />
+      </BrowserRouter>
     </Fragment>
-)
+  );
+};
 
-export default PublicRouter
+export default Router;

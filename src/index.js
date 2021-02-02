@@ -5,9 +5,10 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { ApolloProvider } from "@apollo/react-hooks";
-import './styles/styles.scss'
+import ContextProvider from "./context/context";
+import "./styles/styles.scss";
 
-import PublicRouter from './router/Router'
+import Router from "./router/Router";
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -20,11 +21,13 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <React.StrictMode>
-      <PublicRouter />
-    </React.StrictMode>
-  </ApolloProvider>,
+  <ContextProvider>
+    <ApolloProvider client={client}>
+      <React.StrictMode>
+        <Router />
+      </React.StrictMode>
+    </ApolloProvider>
+  </ContextProvider>,
   document.getElementById("root")
 );
 
