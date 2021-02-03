@@ -6,4 +6,19 @@ body {
     margin-top: 20rem;
 }
 
+pre, code {
+    background-color: #EEF0F1 !important;
+    color: #000 !important;    
+}
+
+pre {
+    padding: 2rem;
+}
+
+
+
+.curved-radius {
+    border-radius: 10px !important;
+}
+
 @import "~bootstrap/scss/bootstrap";

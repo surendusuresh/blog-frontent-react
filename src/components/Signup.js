@@ -4,8 +4,8 @@ import gql from "graphql-tag";
 import { Link } from 'react-router-dom';
 
 const CREATE_USER = gql`
-mutation CreateUser($name: String! , $email: String!, $password: String!){    
-    createUser(name:$name, email:$email, password:$password){
+mutation CreateUser($name: String! , $email: String!, $password: String!, $location: String!, $company: String!, $description: String){    
+    createUser(name:$name, email:$email, password:$password, description: $description, location: $location, company: $company){
         id
     }
 }
@@ -16,13 +16,16 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
-    password2: "",    
+    password2: "",
+    location: "",
+    description: "",
+    company: "",
     message: false,
     success: false
   });
   const [createUser, { loading, error }] = useMutation(CREATE_USER);
 
-  const { name, email, password, password2, message, success } = values;
+  const { name, email, password, password2, description, location, company, message, success } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, message: false, success: false, [name]: event.target.value });      
@@ -34,7 +37,7 @@ const Signup = () => {
         setValues({ ...values, message: "Passwords do not match!", success: false })
         return
     }
-    createUser({ variables: { name, email, password }})
+    createUser({ variables: { name, email, password, description, company, location }})
         .then(( { data } ) => {
             setValues({ 
                 message: false, 
@@ -42,7 +45,10 @@ const Signup = () => {
                 name: "",
                 email: "",
                 password: "",
-                password2: "" 
+                password2: "",
+                location: "",
+                description: "",
+                company: ""
             })
         })
         .catch(e => {
@@ -62,12 +68,40 @@ const Signup = () => {
             <div className="form-group">
               <input
                 type="text"
-                className="form-control"
-                aria-describedby="emailHelp"
+                className="form-control"                
                 placeholder="Name"
                 value={name}
                 onChange={handleChange("name")}
                 required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control"                
+                placeholder="Location"
+                value={location}
+                onChange={handleChange("location")}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Company"
+                value={company}
+                onChange={handleChange("company")}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <textarea
+                type="text"
+                className="form-control"
+                placeholder="About me"
+                value={description}
+                onChange={handleChange("description")}                
               />
             </div>
             <div className="form-group">

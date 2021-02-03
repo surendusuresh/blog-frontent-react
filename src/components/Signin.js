@@ -2,11 +2,11 @@ import React, { useState, useContext } from "react";
 import { useApolloClient } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useHistory, useLocation } from "react-router-dom";
-import { Context } from '../context/context'
-
+import { Context } from "../context/context";
+import { signInUser } from "../helpers/authenticationServices";
 
 const LOGIN_USER = gql`
-  query loginUser($email: String!, $password: String!){
+  query loginUser($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
     }
@@ -14,16 +14,15 @@ const LOGIN_USER = gql`
 `;
 
 const Signin = () => {
-  
-  const { authDispatch } = useContext(Context)
-  let history = useHistory()   
-  let location = useLocation()
+  const { authDispatch } = useContext(Context);
+  let history = useHistory();
+  let location = useLocation();
   const client = useApolloClient();
 
   const [values, setValues] = useState({
     email: "",
     password: "",
-    message: false,    
+    message: false,
   });
 
   const { email, password, message } = values;
@@ -66,32 +65,40 @@ const Signin = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary mb-5"
-                onClick={async (event) => {
-                    event.preventDefault()
-                    try{                      
-                        const response = await client.query({
-                            query: LOGIN_USER,
-                            variables: { email, password },
-                            fetchPolicy: 'no-cache'
-                        })                        
-                        localStorage.setItem('token',response.data.login.token)
-                        authDispatch({
-                          type: 'LOGIN',
-                          token: response.data.login.token
-                      })
-                        history.push('/')
-                    }
-                    catch(e){
-                        console.log(e)
-                        setValues({...values, message: "Username or password is wrong."})
-                    }
-                }}
+            <button
+              type="submit"
+              className="btn btn-primary mb-5"
+              onClick={async (event) => {
+                event.preventDefault();
+                try {
+                  const response = await client.query({
+                    query: LOGIN_USER,
+                    variables: { email, password },
+                    fetchPolicy: "no-cache",
+                  });
+                  signInUser(response.data.login.token);
+                  authDispatch({
+                    type: "LOGIN",
+                    token: response.data.login.token,
+                  });
+                  history.push("/");
+                } catch (e) {
+                  console.log(e);
+                  setValues({
+                    ...values,
+                    message: "Username or password is wrong.",
+                  });
+                }
+              }}
             >
               Sign In
             </button>
-            {message && <p className="mt-3 alert alert-danger">{message}</p>}  
-            {location.state && location.state.params === 'expired' && <p className="mt-3 alert alert-danger">Your session expired. Please login again.</p>}          
+            {message && <p className="mt-3 alert alert-danger">{message}</p>}
+            {location.state && location.state.params === "expired" && (
+              <p className="mt-3 alert alert-danger">
+                Your session expired. Please login again.
+              </p>
+            )}
           </form>
         </div>
       </div>

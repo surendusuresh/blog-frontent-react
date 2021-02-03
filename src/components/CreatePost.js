@@ -3,8 +3,8 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useHistory } from "react-router-dom";
-import jwt from "jsonwebtoken";
 import { Context } from "../context/context";
+import { checkAuthStatus, signOutUser } from '../helpers/authenticationServices'
 
 const CREATE_POST = gql`
   mutation CreatePost(
@@ -30,14 +30,14 @@ const CreatePost = () => {
   let history = useHistory();
   const { authDispatch } = useContext(Context);
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    let decodedToken = jwt.decode(token, { complete: true });
-    let dateNow = new Date();
-    if (decodedToken.payload.exp * 1000 < dateNow.getTime()) {
+
+    const auth = checkAuthStatus()
+    
+    if (auth === 'expired') {
       authDispatch({
         type: "LOGOUT",
       });
-      localStorage.removeItem("token");
+      signOutUser()
       history.push("/signin", { params: "expired" });
     }
   }, [authDispatch, history]);
@@ -82,7 +82,7 @@ const CreatePost = () => {
         authDispatch({
           type: "LOGOUT",
         });
-        localStorage.removeItem("token");
+        signOutUser()
         history.push("/signin", { params: "expired" });        
       });
   };

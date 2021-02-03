@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Context } from "../context/context";
+import { signOutUser } from '../helpers/authenticationServices'
 
 const Header = () => {
   const { auth, authDispatch } = useContext(Context);
@@ -45,7 +46,7 @@ const Header = () => {
                 className="btn btn-primary text-white mr-5"
                 onClick={(e) => {
                   e.preventDefault();
-                  localStorage.removeItem("token");
+                  signOutUser()
                   authDispatch({
                     type: "LOGOUT",
                   });
