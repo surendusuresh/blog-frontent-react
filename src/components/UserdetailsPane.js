@@ -27,7 +27,7 @@ const UserdetailsPane = (props) => {
   return (
     <div className="card d-block mb-3 curved-radius">
       <div className="card-body">                
-        <h5 className="card-title h3">          
+        <h5 className="card-title h3 mb-5">          
             {data.user.name}         
         </h5>
         <p className="card-subtitle text-muted mb-3">{data.user.description}</p>

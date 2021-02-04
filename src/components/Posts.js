@@ -38,7 +38,7 @@ const Posts = () => {
               <h6 className="card-subtitle mb-2 text-muted">
                 {moment(post.createdAt).format("MMM D")}
               </h6>
-              <h5 className="card-title h3"><Link to={{pathname: `showpost/${post.author.name}/${post.slug}`, state: {id: post.id}}}>{post.title}</Link></h5>
+              <h5 className="card-title h3"><Link to={{pathname: `showpost/${post.author.name}/${post.slug}`, state: {id: post.id}}} className="text-decoration-none text-dark">{post.title}</Link></h5>
               <p className="card-text text-muted">{post.tags}</p>
             </div>
           </div>
