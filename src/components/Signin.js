@@ -46,7 +46,7 @@ const Signin = () => {
             <div className="form-group">
               <input
                 type="email"
-                className="form-control"
+                className="form-control mb-2"
                 aria-describedby="emailHelp"
                 placeholder="Email"
                 value={email}
@@ -57,7 +57,7 @@ const Signin = () => {
             <div className="form-group">
               <input
                 type="password"
-                className="form-control"
+                className="form-control  mb-4"
                 id="InputPassword"
                 placeholder="Password"
                 value={password}
@@ -67,7 +67,7 @@ const Signin = () => {
             </div>
             <button
               type="submit"
-              className="btn btn-primary mb-5"
+              className="btn btn-lg btn-primary mb-5"
               onClick={async (event) => {
                 event.preventDefault();
                 try {

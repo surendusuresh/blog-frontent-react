@@ -145,7 +145,7 @@ const CreatePost = () => {
                 onEditorChange={handleEditorChange}
               />
             </div>
-            <button type="submit" className="btn btn-primary mb-5">
+            <button type="submit" className="btn btn-primary my-5">
               Submit
             </button>
             {message && <p className="mt-3 alert alert-danger">{message}</p>}

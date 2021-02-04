@@ -1,24 +1,30 @@
 body {
-    overflow-x: hidden!important;    
+  overflow-x: hidden !important;
 }
 
 .footer {
-    margin-top: 20rem;
+  margin-top: 20rem;
 }
 
-pre, code {
-    background-color: #EEF0F1 !important;
-    color: #000 !important;    
+pre,
+code {
+  background-color: #eef0f1 !important;
+  color: #000 !important;
 }
 
 pre {
-    padding: 2rem;
+  padding: 2rem;
 }
-
-
 
 .curved-radius {
-    border-radius: 10px !important;
+  border-radius: 5px !important;
 }
 
-@import "~bootstrap/scss/bootstrap";
+
+
+.blue-bg {
+    @media (min-width: 768px) {
+        background: #007bff;
+        color: white !important;
+    }
+  }

@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const LeftsidePane = () => {
   return (
-    <div>
+    <div className="d-none d-md-block">
       <div className="d-flex flex-column mt-1">
         <p className="mb-4">
           <FontAwesomeIcon icon={faHome} /> Home
