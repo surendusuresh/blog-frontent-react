@@ -78,6 +78,12 @@ const Header = () => {
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
+                    <Link
+                      to="/user-dashboard"
+                      className="dropdown-item"                      
+                    >
+                      Dashboard
+                    </Link>
                     <span
                       className="dropdown-item"
                       onClick={(e) => {
